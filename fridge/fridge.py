@@ -4,6 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime, timedelta
 
 Base = declarative_base()
+DATABASE_URL= "sqlite:///smart_home.db"
 
 class GroceryInventory(Base):
     __tablename__ = 'groceryinventory'
@@ -15,8 +16,8 @@ class GroceryInventory(Base):
     expiration_date = Column(DateTime)
 
 class SmartFridge:
-    def __init__(self, database_url):
-        self.engine = create_engine(database_url)
+    def __init__(self):
+        self.engine = create_engine(DATABASE_URL)
         Base.metadata.create_all(self.engine)
         self.Session = sessionmaker(bind=self.engine)
 
@@ -57,6 +58,7 @@ class SmartFridge:
 
     def close(self):
         self.engine.dispose()
+        
 """
 if __name__ == "__main__":
     database_url = "sqlite:///smart_home.db"

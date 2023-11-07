@@ -1,12 +1,14 @@
 import tkinter as tk
 from tkinter import ttk
+from datetime import datetime
 
 from fridge.fridge import SmartFridge
 
+fridge = SmartFridge()
+
 class GUI:
-    def __init__(self, root, groceries):
+    def __init__(self, root):
         self.root = root
-        self.groceries = groceries
         self.root.title("Smart Home")
         self.root.geometry("900x600")
         self.create_tabs()        
@@ -108,36 +110,34 @@ class GUI:
     def submit_add_groceries(self):
         self.item_name = self.entry_grocery_name.get() 
         self.item_quantity = abs(int(self.entry_grocery_qty.get()))
-        self.item_date = self.entry_grocery_date.get()
+        self.item_date = datetime.strptime(self.entry_grocery_date.get(), '%Y-%m-%d')
         
         self.entry_grocery_name.delete(0, tk.END)
         self.entry_grocery_qty.delete(0, tk.END)
         self.entry_grocery_date.delete(0, tk.END)
         
+        fridge.add_grocery(name= self.item_name, quantity= self.item_quantity, expiration_date= self.item_date)
         self.update_groceries_list()
         
-        return self.item_name, self.item_quantity, self.item_date
     
     def submit_remove_groceries(self):
         self.item_name = self.entry_grocery_name.get() 
         self.item_quantity = abs(int(self.entry_grocery_qty.get()))
-        self.item_date = self.entry_grocery_date.get()
         
         self.entry_grocery_name.delete(0, tk.END)
         self.entry_grocery_qty.delete(0, tk.END)
-        self.entry_grocery_date.delete(0, tk.END)
         
+        fridge.remove_grocery(name= self.item_name, quantity=self.item_quantity)
         self.update_groceries_list()
         
-        return self.item_name, self.item_quantity, self.item_date
     
     def close_add_remove_groceries(self):
         self.entry_frame.destroy()
 
     def update_groceries_list(self):
-        
+        groceries = fridge.list_groceries()
         self.groceries_text.delete(1.0, tk.END)  # Clear the text widget           
-        for item in self.groceries:
+        for item in groceries:
             self.groceries_text.insert(tk.END, f"{item.name}: {item.quantity} (Expires on: {item.expiration_date}\n)")
         
 
