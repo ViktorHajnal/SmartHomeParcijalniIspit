@@ -57,7 +57,7 @@ class SmartFridge:
 
     def close(self):
         self.engine.dispose()
-
+"""
 if __name__ == "__main__":
     database_url = "sqlite:///smart_home.db"
     fridge = SmartFridge(database_url)
@@ -77,3 +77,4 @@ if __name__ == "__main__":
 
     # Close the fridge
     fridge.close()
+"""
