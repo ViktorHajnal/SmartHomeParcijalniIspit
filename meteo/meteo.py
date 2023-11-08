@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from random import randint
 from PIL import Image
-from sqlalchemy import create_engine, Column, Integer, DateTime, func, Float, String
+from sqlalchemy import create_engine, Column, Integer, DateTime, Float, String
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
@@ -39,7 +39,7 @@ class Meteo:
         self.Session = sessionmaker(bind=self.engine)
         self.add_sql_meteoinfo()
         
-    def fetch_weather_data(self):        
+    def fetch_weather_data(self):     
         response = requests.get(self.url)
 
         if response.status_code == 200:
@@ -53,11 +53,7 @@ class Meteo:
                     self.temp_zg_maksimir = city.find('Temp').text.strip()
                     self.humi_zg_maksimir = city.find('Vlaga').text.strip()
                     self.press_zg_maksimir = city.find('Tlak').text.strip()
-                    self.weather_text = city.find('Vrijeme').text.strip() #ovo iz nekog razloga ne čita č,ž,š makar je prebačeno na UTF-8
-                    print(soup.original_encoding)
-             
-            
-            #return self.temp_zg_maksimir, self.humi_zg_maksimir, self.press_zg_maksimir, self.weather_text
+                    self.weather_text = city.find('Vrijeme').text #ovo iz nekog razloga ne čita č,ž,š makar je prebačeno na UTF-8       
         else:
             print(f"Failed to fetch data. Status code: {response.status_code}")
             return None
