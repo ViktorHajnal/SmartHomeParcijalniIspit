@@ -73,13 +73,13 @@ class Meteo:
         
     def icons_city_temp_humi_press(self):
         if float(self.temp_zg_maksimir) >= 28:
-            self.icon_city_image =  Image.open(r'icons\icons8-shorts-100.png')  
+            self.icon_city_image =  Image.open('icons\icons8-shorts-100.png')  
         elif float(self.temp_zg_maksimir) >= 18:
-            self.icon_city_image =  Image.open(r'icons\icons8-polo-shirt-100.png') 
+            self.icon_city_image =  Image.open('icons\icons8-polo-shirt-100.png') 
         elif float(self.temp_zg_maksimir) >= 5:
-            self.icon_city_image =  Image.open(r'icons\icons8-mens-hoodie-100.png')
+            self.icon_city_image =  Image.open('icons\icons8-mens-hoodie-100.png')
         else:
-            self.icon_city_image =  Image.open(r'icons\icons8-mitten-100.png')
+            self.icon_city_image =  Image.open('icons\icons8-mitten-100.png')
         self.icon_city_image = self.icon_city_image.resize((60, 60))
     
     def icons_house_temp_humi_press(self):
