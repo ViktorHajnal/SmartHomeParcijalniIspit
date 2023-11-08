@@ -144,32 +144,66 @@ class GUI:
                     
     #Kreiranje labela za Meteo tab SmartHome aplikacije
     def labels_meteo(self, tab):
-        label1 = ttk.Label(tab, text=f"Trenutna temperatura u Zagrebu je: {meteo.temp_zg_maksimir} °C")
-        label1.grid(column=0, row=0, padx=5, pady=5)
+        # Frame za weather gdje pokazujemo tekstualno podatke o vanjskoj temp
+        weather_frame = tk.Frame(self.tab2, highlightbackground='black', highlightthickness=1)
+        weather_frame.grid(column=0, row=0, padx=5, pady=5, columnspan=1) 
         
+        frame_name = ttk.Label(weather_frame, text="Trenutna vremenska situacija u Zagrebu", font=("Arial", 14, 'bold'))
+        frame_name.grid(column=0, row=0, padx=5, pady=5)
+        
+        label_temp = ttk.Label(weather_frame, text=f"Trenutna temperatura zraka: {meteo.temp_zg_maksimir} °C", font=("Arial", 12))
+        label_temp.grid(column=0, row=1, padx=5, pady=5)
+        
+        label_humi = ttk.Label(weather_frame, text=f"Trenutna vlažnost zraka: {meteo.humi_zg_maksimir} %", font=("Arial", 12))
+        label_humi.grid(column=0, row=2, padx=5, pady=5)
+        
+        label_press = ttk.Label(weather_frame, text=f"Trenutni tlak zraka: {meteo.press_zg_maksimir} hPa", font=("Arial", 12))
+        label_press.grid(column=0, row=3, padx=5, pady=5)
+        
+        label_text = ttk.Label(weather_frame, text=f"Trenutno vrijeme: {meteo.weather_text}", font=("Arial", 12))
+        label_text.grid(column=0, row=4, padx=5, pady=5)
+        
+        # Frame za ikone gdje pokazujemo kako se treba obući vani
+        weather_icon_frame = tk.Frame(self.tab2, highlightbackground='black', highlightthickness=1)
+        weather_icon_frame.grid(column=1, row=0, padx=5, pady=5, columnspan=1) 
+        
+        label_temp = ttk.Label(weather_icon_frame, text="Prijedlog za oblačenje ukoliko se ide u van.", font=("Arial", 12))
+        label_temp.grid(column=0, row=0, padx=5, pady=5)
         # Mora se napisati ovim redosljedom da bi se pokazivala sličica
-        icon_photo = ImageTk.PhotoImage(meteo.icon_image)        
-        icon_label1 = ttk.Label(tab, text='Prijedlog oblačenja za danas',image=icon_photo) 
-        icon_label1.image = icon_photo
-        icon_label1.grid(column=1, row=0, padx=5, pady=5)
+        icon_photo_city = ImageTk.PhotoImage(meteo.icon_city_image)        
+        icon_label_city = ttk.Label(weather_icon_frame, image=icon_photo_city) 
+        icon_label_city.image = icon_photo_city
+        icon_label_city.grid(column=0, row=1, padx=5, pady=5)
         
+        # Frame za situaciju u kući
+        house_frame = tk.Frame(self.tab2, highlightbackground='black', highlightthickness=1)
+        house_frame.grid(column=0, row=1, padx=5, pady=5, columnspan=1) 
+        
+        frame_house_name = ttk.Label(house_frame, text="Trenutna vremenska situacija u kući", font=("Arial", 14, 'bold'))
+        frame_house_name.grid(column=0, row=0, padx=5, pady=5)
+        
+        label_house_temp = ttk.Label(house_frame, text=f"Trenutna temperatura zraka: {meteo.temp_inside} °C", font=("Arial", 12))
+        label_house_temp.grid(column=0, row=1, padx=5, pady=5)
+        
+        label_house_humi = ttk.Label(house_frame, text=f"Trenutna vlažnost zraka: {meteo.humi_inside} %", font=("Arial", 12))
+        label_house_humi.grid(column=0, row=2, padx=5, pady=5)
+        
+        label_house_press = ttk.Label(house_frame, text=f"Trenutni tlak zraka: {meteo.press_inside} hPa", font=("Arial", 12))
+        label_house_press.grid(column=0, row=3, padx=5, pady=5)
+        
+        # Frame za ikone gdje pokazujemo kako se treba obući u kući
+        city_icon_frame = tk.Frame(self.tab2, highlightbackground='black', highlightthickness=1)
+        city_icon_frame.grid(column=1, row=1, padx=5, pady=5, columnspan=1) 
+        
+        label_house_temp = ttk.Label(city_icon_frame, text="Prijedlog za oblačenje u kući.", font=("Arial", 12))
+        label_house_temp.grid(column=0, row=0, padx=5, pady=5)
+        # Mora se napisati ovim redosljedom da bi se pokazivala sličica
+        icon_house_photo = ImageTk.PhotoImage(meteo.icon_house_image)        
+        icon_label_house = ttk.Label(city_icon_frame, image=icon_house_photo) 
+        icon_label_house.image = icon_house_photo
+        icon_label_house.grid(column=0, row=1, padx=5, pady=5)
         
 
-        """label2 = ttk.Label(tab, text="Label 2")
-        label2.grid(column=0, row=1, padx=5, pady=5)"""
         
-        """object1_text = "Object 1 Text"
-        object2_text = "Object 2 Text"
-        object3_text = "Object 3 Text"
-
-        label_object1 = ttk.Label(tab, text=object1_text)
-        label_object1.grid(column=1, row=0, padx=10, pady=10)
-
-        label_object2 = ttk.Label(tab, text=object2_text)
-        label_object2.grid(column=1, row=1, padx=10, pady=10)
-
-        label_object3 = ttk.Label(tab, text=object3_text)
-        label_object3.grid(column=1, row=2, padx=10, pady=10)"""
-
 
     

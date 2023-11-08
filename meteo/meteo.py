@@ -32,7 +32,8 @@ class Meteo:
         self.url = 'https://vrijeme.hr/hrvatska_n.xml'
         self.fetch_weather_data()
         self.simul_inside_outside()
-        self.icons_temp_humi_press()
+        self.icons_city_temp_humi_press()
+        self.icons_house_temp_humi_press()
         self.engine = create_engine(DATABASE_URL)
         Base.metadata.create_all(self.engine)
         self.Session = sessionmaker(bind=self.engine)
@@ -56,35 +57,47 @@ class Meteo:
                     print(soup.original_encoding)
              
             
-            return self.temp_zg_maksimir, self.humi_zg_maksimir, self.press_zg_maksimir, self.weather_text
+            #return self.temp_zg_maksimir, self.humi_zg_maksimir, self.press_zg_maksimir, self.weather_text
         else:
             print(f"Failed to fetch data. Status code: {response.status_code}")
             return None
     
     def simul_inside_outside(self):
         
-        self.temp_inside = float(self.temp_zg_maksimir) + randint(3, 7) #Dižemo temperaturu u odnosu na gradsku
+        self.temp_inside = float(self.temp_zg_maksimir) + randint(5, 8) #Dižemo temperaturu u odnosu na gradsku
         self.humi_inside = float(self.humi_zg_maksimir) + (randint(-20, 20) / 10) #Mijenjamo vlažnost u odnosu na gradsku
         self.press_inside = float(self.press_zg_maksimir) + randint(20, 100) #Mijenjamo tlak u odnosu na gradsku
         self.temp_outside = float(self.temp_zg_maksimir) + randint(0, 3) #Dižemo temperaturu vani u odnosu na gradsku
         self.humi_outside = float(self.humi_zg_maksimir) + (randint(-10, 10) / 10) #Mijenjamo vlažnost vani u odnosu na gradsku
         self.press_outside = float(self.press_zg_maksimir) + randint(20, 40) #Mijenjamo tlak vani u odnosu na gradsku
         
-    def icons_temp_humi_press(self):
+    def icons_city_temp_humi_press(self):
         if float(self.temp_zg_maksimir) >= 28:
-            self.icon_image =  Image.open(r'icons\icons8-shorts-100.png')  
+            self.icon_city_image =  Image.open(r'icons\icons8-shorts-100.png')  
         elif float(self.temp_zg_maksimir) >= 18:
-            self.icon_image =  Image.open(r'icons\icons8-polo-shirt-100.png') 
+            self.icon_city_image =  Image.open(r'icons\icons8-polo-shirt-100.png') 
         elif float(self.temp_zg_maksimir) >= 5:
-            self.icon_image =  Image.open(r'icons\icons8-mens-hoodie-100.png')
+            self.icon_city_image =  Image.open(r'icons\icons8-mens-hoodie-100.png')
         else:
-            self.icon_image =  Image.open(r'icons\icons8-mitten-100.png')
-        self.icon_image = self.icon_image.resize((50, 50))
-            
+            self.icon_city_image =  Image.open(r'icons\icons8-mitten-100.png')
+        self.icon_city_image = self.icon_city_image.resize((60, 60))
+    
+    def icons_house_temp_humi_press(self):
+        if float(self.temp_inside) >= 28:
+            self.icon_house_image =  Image.open('icons\icons8-shorts-100.png')  
+        elif float(self.temp_inside) >= 18:
+            self.icon_house_image =  Image.open('icons\icons8-polo-shirt-100.png') 
+        elif float(self.temp_inside) >= 5:
+            self.icon_house_image =  Image.open('icons\icons8-mens-hoodie-100.png')
+        else:
+            self.icon_house_image =  Image.open('icons\icons8-mitten-100.png')
+        self.icon_house_image = self.icon_house_image.resize((60, 60))
+    
     def update_all(self):
         self.fetch_weather_data()
         self.simul_inside_outside()
-        self.icons_temp_humi_press()
+        self.icons_city_temp_humi_press()
+        self.icons_house_temp_humi_press()
         self.add_sql_meteoinfo()
         
     def add_sql_meteoinfo(self):
@@ -106,6 +119,7 @@ class Meteo:
 
 
 
+"""
 
 if __name__ == "__main__":
     meteo = Meteo()
@@ -119,5 +133,5 @@ if __name__ == "__main__":
     print(f"Pressure: {meteo.press_zg_maksimir} hPa")
     print(f"Pressure inside: {meteo.press_inside} hPa")
     print(f"Pressure outside: {meteo.press_outside} hPa")
-    print(f"Weather outside: {meteo.weather_text} hPa")
+    print(f"Weather outside: {meteo.weather_text} hPa")"""
     
