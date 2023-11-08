@@ -1,10 +1,13 @@
 import tkinter as tk
 from tkinter import ttk
+from PIL import ImageTk
 from datetime import datetime
 
 from fridge.fridge import SmartFridge
+from meteo.meteo import Meteo
 
 fridge = SmartFridge()
+meteo = Meteo()
 
 class GUI:
     def __init__(self, root):
@@ -109,8 +112,8 @@ class GUI:
             
     def submit_add_groceries(self):
         self.item_name = self.entry_grocery_name.get() 
-        self.item_quantity = abs(int(self.entry_grocery_qty.get()))
-        self.item_date = datetime.strptime(self.entry_grocery_date.get(), '%Y-%m-%d')
+        self.item_quantity = abs(int(self.entry_grocery_qty.get())) #
+        self.item_date = datetime.strptime(self.entry_grocery_date.get(), '%Y-%m-%d') #Moramo unositi u formatu YYYY-MM-DD
         
         self.entry_grocery_name.delete(0, tk.END)
         self.entry_grocery_qty.delete(0, tk.END)
@@ -128,8 +131,7 @@ class GUI:
         self.entry_grocery_qty.delete(0, tk.END)
         
         fridge.remove_grocery(name= self.item_name, quantity=self.item_quantity)
-        self.update_groceries_list()
-        
+        self.update_groceries_list()        
     
     def close_add_remove_groceries(self):
         self.entry_frame.destroy()
@@ -139,18 +141,24 @@ class GUI:
         self.groceries_text.delete(1.0, tk.END)  # Clear the text widget           
         for item in groceries:
             self.groceries_text.insert(tk.END, f"{item.name}: {item.quantity} (Expires on: {item.expiration_date}\n)")
-        
-
-        
+                    
     #Kreiranje labela za Meteo tab SmartHome aplikacije
     def labels_meteo(self, tab):
-        label1 = ttk.Label(tab, text="Label 1")
+        label1 = ttk.Label(tab, text=f"Trenutna temperatura u Zagrebu je: {meteo.temp_zg_maksimir} °C")
         label1.grid(column=0, row=0, padx=5, pady=5)
-
-        label2 = ttk.Label(tab, text="Label 2")
-        label2.grid(column=0, row=1, padx=5, pady=5)
         
-        object1_text = "Object 1 Text"
+        # Mora se napisati ovim redosljedom da bi se pokazivala sličica
+        icon_photo = ImageTk.PhotoImage(meteo.icon_image)        
+        icon_label1 = ttk.Label(tab, text='Prijedlog oblačenja za danas',image=icon_photo) 
+        icon_label1.image = icon_photo
+        icon_label1.grid(column=1, row=0, padx=5, pady=5)
+        
+        
+
+        """label2 = ttk.Label(tab, text="Label 2")
+        label2.grid(column=0, row=1, padx=5, pady=5)"""
+        
+        """object1_text = "Object 1 Text"
         object2_text = "Object 2 Text"
         object3_text = "Object 3 Text"
 
@@ -161,7 +169,7 @@ class GUI:
         label_object2.grid(column=1, row=1, padx=10, pady=10)
 
         label_object3 = ttk.Label(tab, text=object3_text)
-        label_object3.grid(column=1, row=2, padx=10, pady=10)
+        label_object3.grid(column=1, row=2, padx=10, pady=10)"""
 
 
     
