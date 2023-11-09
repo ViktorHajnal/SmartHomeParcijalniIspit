@@ -9,7 +9,6 @@ from sql.sql_conn import Sql
 from datetime import datetime
 
 Base = declarative_base()
-#DATABASE_URL= "sqlite:///smart_home.db"
 
 class MeteoInfo(Base):
     __tablename__ = 'meteoinfo'
@@ -35,9 +34,6 @@ class Meteo:
         self.simul_inside_outside()
         self.icons_city_temp_humi_press()
         self.icons_house_temp_humi_press()
-        """self.engine = create_engine(DATABASE_URL)
-        Base.metadata.create_all(self.engine)
-        self.Session = sessionmaker(bind=self.engine)"""
         self.sql = Sql()
         self.session = self.sql.session()
         self.add_sql_meteoinfo()

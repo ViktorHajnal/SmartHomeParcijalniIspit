@@ -55,25 +55,4 @@ class SmartFridge:
         return groceries
 
     
-        
-"""
-if __name__ == "__main__":
-    database_url = "sqlite:///smart_home.db"
-    fridge = SmartFridge(database_url)
-
-    # Add groceries to the fridge
-    fridge.add_grocery("Milk", 6, datetime.now() + timedelta(days=5))
-    fridge.add_grocery("Eggs", 12, datetime.now() + timedelta(days=7))
-    fridge.add_grocery("Apples", 6, datetime.now() + timedelta(days=3))
-
-    # Remove a specific quantity of a grocery from the fridge
-    fridge.remove_grocery("Milk", 4)
-
-    # List the available groceries in the fridge by closest expiration date
-    groceries_in_fridge = fridge.list_groceries()
-    for item in groceries_in_fridge:
-        print(f"{item.name}: {item.quantity} (Expires on: {item.expiration_date})")
-
-    # Close the fridge
-    fridge.close()
-"""
+   

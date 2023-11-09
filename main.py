@@ -1,6 +1,5 @@
 import tkinter as tk
 from gui.gui import GUI
-from fridge.fridge import SmartFridge
 from sql.sql_conn import Sql
 
 def main():
