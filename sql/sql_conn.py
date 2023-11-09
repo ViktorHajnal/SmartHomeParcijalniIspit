@@ -11,4 +11,7 @@ class Sql:
         session = self.Session()
         return session
     
+    def close_session(self):
+        return self.engine.dispose()
+    
     
