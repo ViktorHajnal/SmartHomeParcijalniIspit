@@ -2,13 +2,14 @@ import requests
 from bs4 import BeautifulSoup
 from random import randint
 from PIL import Image
-from sqlalchemy import create_engine, Column, Integer, DateTime, Float, String
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import Column, Integer, DateTime, Float, String
+#from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from sql.sql_conn import Sql
 from datetime import datetime
 
 Base = declarative_base()
-DATABASE_URL= "sqlite:///smart_home.db"
+#DATABASE_URL= "sqlite:///smart_home.db"
 
 class MeteoInfo(Base):
     __tablename__ = 'meteoinfo'
@@ -34,9 +35,11 @@ class Meteo:
         self.simul_inside_outside()
         self.icons_city_temp_humi_press()
         self.icons_house_temp_humi_press()
-        self.engine = create_engine(DATABASE_URL)
+        """self.engine = create_engine(DATABASE_URL)
         Base.metadata.create_all(self.engine)
-        self.Session = sessionmaker(bind=self.engine)
+        self.Session = sessionmaker(bind=self.engine)"""
+        self.sql = Sql()
+        self.session = self.sql.session()
         self.add_sql_meteoinfo()
         
     def fetch_weather_data(self):     
@@ -69,24 +72,24 @@ class Meteo:
         
     def icons_city_temp_humi_press(self):
         if float(self.temp_zg_maksimir) >= 28:
-            self.icon_city_image =  Image.open('icons\icons8-shorts-100.png')  
+            self.icon_city_image =  Image.open(r'icons\icons8-shorts-100.png')  
         elif float(self.temp_zg_maksimir) >= 18:
-            self.icon_city_image =  Image.open('icons\icons8-polo-shirt-100.png') 
+            self.icon_city_image =  Image.open(r'icons\icons8-polo-shirt-100.png') 
         elif float(self.temp_zg_maksimir) >= 5:
-            self.icon_city_image =  Image.open('icons\icons8-mens-hoodie-100.png')
+            self.icon_city_image =  Image.open(r'icons\icons8-mens-hoodie-100.png')
         else:
-            self.icon_city_image =  Image.open('icons\icons8-mitten-100.png')
+            self.icon_city_image =  Image.open(r'icons\icons8-mitten-100.png')
         self.icon_city_image = self.icon_city_image.resize((60, 60))
     
     def icons_house_temp_humi_press(self):
         if float(self.temp_inside) >= 28:
-            self.icon_house_image =  Image.open('icons\icons8-shorts-100.png')  
+            self.icon_house_image =  Image.open(r'icons\icons8-shorts-100.png')  
         elif float(self.temp_inside) >= 18:
-            self.icon_house_image =  Image.open('icons\icons8-polo-shirt-100.png') 
+            self.icon_house_image =  Image.open(r'icons\icons8-polo-shirt-100.png') 
         elif float(self.temp_inside) >= 5:
-            self.icon_house_image =  Image.open('icons\icons8-mens-hoodie-100.png')
+            self.icon_house_image =  Image.open(r'icons\icons8-mens-hoodie-100.png')
         else:
-            self.icon_house_image =  Image.open('icons\icons8-mitten-100.png')
+            self.icon_house_image =  Image.open(r'icons\icons8-mitten-100.png')
         self.icon_house_image = self.icon_house_image.resize((60, 60))
     
     def update_all(self):
@@ -97,7 +100,7 @@ class Meteo:
         self.add_sql_meteoinfo()
         
     def add_sql_meteoinfo(self):
-        session = self.Session()
+        session = self.session
         meteo_info = MeteoInfo(temp_zg_maksimir= float(self.temp_zg_maksimir),
                                 temp_inside = float(self.temp_inside),
                                 temp_outside = float(self.temp_outside),
